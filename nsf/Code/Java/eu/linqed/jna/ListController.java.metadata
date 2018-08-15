@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.10" replicaid="C12582E80072247B" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="16a" sequence="56" unid="193D8C69D7DF0661C12582E8007238BB">
+<created><datetime dst="true">20180813T224736,27+02</datetime></created>
+<modified><datetime dst="true">20180814T230057,36+02</datetime></modified>
+<revised><datetime dst="true">20180814T230057,34+02</datetime></revised>
+<lastaccessed><datetime dst="true">20180814T230057,34+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20180813T224736,27+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Mark Leusink/O=LinQed</name></updatedby>
+<wassignedby><name>CN=Mark Leusink/O=LinQed</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>eu/linqed/jna/ListController.java</text></item>
+
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>eu/linqed/jna/ListController.java</text></item>
+
+</note>

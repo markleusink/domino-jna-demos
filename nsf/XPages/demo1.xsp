@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view
+	xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	pageTitle="JNA List demo 1">
+
+	<xp:this.data>
+		<xe:objectData
+			var="listCtrl"
+			createObject="#{javascript:return new eu.linqed.jna.ListController()}">
+		</xe:objectData>
+	</xp:this.data>
+
+	<xc:ccLayout>
+
+		<div class="well well-sm">
+			Shows a basic JNA list setup, reading paged entries from a view.
+		</div>
+
+		<xp:div id="listContainer">
+
+			<!-- pager -->
+			<xc:ccPager
+				ctrl="#{listCtrl}"
+				refreshId="listContainer"></xc:ccPager>
+
+			<!-- data table -->
+			<xp:dataTable
+				styleClass="table table-striped table-condensed"
+				id="dataTable1"
+				rows="15"
+				var="entry"
+				value="#{listCtrl.entries}"
+				headerClass="info">
+				<xp:column
+					id="column3"
+					style="width: 150px">
+					<xp:this.facets>
+						<xp:label
+							value="First name"
+							id="label2"
+							xp:key="header">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text value="#{entry.firstname}" />
+				</xp:column>
+				<xp:column
+					id="column4"
+					style="width: 150px">
+					<xp:this.facets>
+						<xp:label
+							value="Last name"
+							id="label1"
+							xp:key="header">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text value="#{entry.lastname}" />
+				</xp:column>
+				<xp:column id="column5">
+					<xp:this.facets>
+						<xp:label
+							value="Street"
+							id="label3"
+							xp:key="header">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text value="#{entry.street}" />
+				</xp:column>
+				<xp:column
+					id="column6"
+					style="width: 100px">
+					<xp:this.facets>
+						<xp:label
+							value="Zip Code"
+							id="label4"
+							xp:key="header">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text value="#{entry.zip}" />
+				</xp:column>
+				<xp:column
+					id="column1"
+					style="width: 175px">
+					<xp:this.facets>
+						<xp:label
+							value="City"
+							id="label5"
+							xp:key="header">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text value="#{entry.city}" />
+				</xp:column>
+				<xp:column
+					id="column7"
+					style="width: 125px">
+					<xp:this.facets>
+						<xp:label
+							value="Country"
+							id="label6"
+							xp:key="header">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text value="#{entry.country}" />
+				</xp:column>
+			</xp:dataTable>
+
+		</xp:div>
+
+	</xc:ccLayout>
+
+</xp:view>

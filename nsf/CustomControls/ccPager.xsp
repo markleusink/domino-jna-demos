@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+
+	<xp:div
+		styleClass="pull-right">
+
+		<ul class="pagination">
+
+			<!-- previous link (disabled - for first page) -->
+			<xp:panel
+				tagName="li"
+				styleClass="disabled"
+				rendered="#{compositeData.ctrl.skipEntries == 1}">
+				<a style="border-color: transparent;  border-right: 1px solid #ddd">
+					Previous
+				</a>
+			</xp:panel>
+			
+			<!-- previous link -->
+			<xp:panel
+				tagName="li"
+				rendered="#{compositeData.ctrl.skipEntries > 1}">
+
+				<xp:link
+					escape="true"
+					style="border-color: transparent;  border-right: 1px solid #ddd"
+					text=""
+					id="link1">
+					<xp:eventHandler
+						event="onclick"
+						submit="true"
+						execMode="partial"
+						execId="#{compositeData.refreshId}"
+						refreshMode="partial"
+						refreshId="#{compositeData.refreshId}">
+						<xp:this.action><![CDATA[#{javascript:compositeData.ctrl.previousPage()}]]></xp:this.action>
+					</xp:eventHandler>
+					<i class="fa fa-angle-left"></i>
+					&#160;Previous
+				</xp:link>
+			</xp:panel>
+
+			<!-- info (page start/ end index + total entries) -->
+			<li class="disabled">
+				<span>
+					<xp:text value="#{compositeData.ctrl.pageStartEntry}">
+						<xp:this.converter>
+							<xp:convertNumber
+								type="number"
+								integerOnly="true">
+							</xp:convertNumber>
+						</xp:this.converter>
+					</xp:text>
+					-
+					<xp:text value="#{compositeData.ctrl.pageEndEntry}">
+						<xp:this.converter>
+							<xp:convertNumber
+								type="number"
+								integerOnly="true">
+							</xp:convertNumber>
+						</xp:this.converter>
+					</xp:text>
+
+					/
+					<xp:text
+						escape="false"
+						disableTheme="true"
+						value="#{compositeData.ctrl.totalEntries}">
+					</xp:text>
+				</span>
+
+			</li>
+
+			<!-- next page (disabled link, no more pages) -->
+			<xp:panel
+				tagName="li"
+				styleClass="disabled"
+				rendered="#{!compositeData.ctrl.hasMorePages}">
+				<a style="border-color: transparent; border-left: 1px solid #ddd">
+					Next&#160;
+					<i class="fa fa-angle-right"></i>
+				</a>
+			</xp:panel>
+
+			<!-- next page -->
+			<xp:panel
+				tagName="li"
+				rendered="#{compositeData.ctrl.hasMorePages}">
+				<xp:link
+					style="border-color: transparent; border-left: 1px solid #ddd"
+					escape="true"
+					text=""
+					id="link4">
+					<xp:eventHandler
+						event="onclick"
+						submit="true"
+						execMode="partial"
+						execId="#{compositeData.refreshId}"
+						refreshMode="partial"
+						refreshId="#{compositeData.refreshId}">
+						<xp:this.action><![CDATA[#{javascript:compositeData.ctrl.nextPage()}]]></xp:this.action>
+					</xp:eventHandler>
+					Next&#160;
+					<i class="fa fa-angle-right"></i>
+				</xp:link>
+			</xp:panel>
+
+		</ul>
+
+	</xp:div>
+
+</xp:view>
