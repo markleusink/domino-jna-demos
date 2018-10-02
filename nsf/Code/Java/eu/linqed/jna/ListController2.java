@@ -8,27 +8,31 @@ import java.util.Map;
 
 import com.ibm.xsp.extlib.util.ExtLibUtil;
 import com.mindoo.domino.jna.NotesCollection;
+import com.mindoo.domino.jna.NotesCollection.Direction;
 import com.mindoo.domino.jna.NotesCollection.EntriesAsListCallback;
 import com.mindoo.domino.jna.NotesDatabase;
 import com.mindoo.domino.jna.NotesViewEntryData;
 import com.mindoo.domino.jna.constants.Navigate;
 import com.mindoo.domino.jna.constants.ReadMask;
 
-public class ListController implements Serializable {
+public class ListController2 implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	static String fakenamesPath = "jna/fakenames2018.nsf";
 	
-	List<Map<String, Object>> entries = new ArrayList<Map<String, Object>>();
+	List<Map> entries = new ArrayList();
 	
 	int NUM_PER_PAGE = 15;		// number of entries to show per page
 	int skipEntries = 1; 		// number of entries to skip (used for pagination)
 	int totalEntries;			// total entries
 	
-	public ListController() {
+	String sortColumn = "firstName";		//default sort column
+	boolean sortAscending = true;
+	
+	public ListController2() {
 		
-		//load first set of entries
+		//load first set of entires
 		loadEntries();
 		
 	}
@@ -36,26 +40,27 @@ public class ListController implements Serializable {
 	public void loadEntries() {
 		
 		try {
-			
-			// open the target database/ view (collection)
 			NotesDatabase db = new NotesDatabase(ExtLibUtil.getCurrentSession(), "", fakenamesPath);
 			NotesCollection collection = db.openCollectionByName("contacts");
 			
-			// read total number of entries
+			//resort the collection (view) according to the selected column
+			collection.resortView(this.sortColumn, (this.sortAscending ? Direction.Ascending : Direction.Descending));
+			
 			totalEntries = collection.getTopLevelEntries();
 			
-			// tell the API how to navigate in the view: from one entry to the next (in view ordering)
+			// tell the API how to navigate in the view: from one entry in the selectedList
+			// to the next one (in view ordering)
 			EnumSet<Navigate> returnNavigator = EnumSet.of(Navigate.NEXT);
 			
-			// tell the API which data we want to read from the view
-			// (in this case note ids and column itemname/value map)
+			// tell the API which data we want to read (in this case note ids and column itemname/value map)
 			EnumSet<ReadMask> returnData = EnumSet.of(ReadMask.NOTEID, ReadMask.SUMMARYVALUES);
 			
-			// read the data from the collection
+			//get a list of 'NotesViewEntryData' for the current page
 			List<NotesViewEntryData> viewEntries = collection.getAllEntries("0", skipEntries, returnNavigator, NUM_PER_PAGE, returnData, 
 					new EntriesAsListCallback(NUM_PER_PAGE));
 			
-			//store the view entry data in a list containing maps
+			//transform the list into a list of map (where every entry represents a view entry and has a map
+			//containing the column values)
 			entries.clear();
 			
 			for( NotesViewEntryData entry : viewEntries) {
@@ -68,7 +73,7 @@ public class ListController implements Serializable {
 
 	}
 	
-	public List<Map<String, Object>> getEntries() {
+	public List<Map> getEntries() {
 		return entries;
 	}
 	
@@ -99,19 +104,42 @@ public class ListController implements Serializable {
 		return end;
 	}
 	
-	//navigate to the next page and load the entries
+	//navigate to the next page
 	public void nextPage() {
 		this.skipEntries += NUM_PER_PAGE;
 		loadEntries();
 	}
 
-	//navigate to the previous page and load the entries
+	//navigate to the previous page
 	public void previousPage() {
 		this.skipEntries -= NUM_PER_PAGE;
 		if (this.skipEntries < 1) {
 			skipEntries = 1;
 		}
 		loadEntries();
+	}
+	
+	//sort column
+	public String getSortColumn() {
+		return sortColumn;
+	}
+	
+	public void setSortColumn(String sortColumn) {
+		
+		if (sortColumn.equals(this.sortColumn) ) {
+			//column clicked that's already sorted, changed the order
+			this.sortAscending = !this.sortAscending;
+		} else {
+			this.sortColumn = sortColumn;
+			this.sortAscending = true;
+		}
+		
+		loadEntries();
+		
+	}
+	
+	public boolean isSortAscending() {
+		return sortAscending;
 	}
 	
 }

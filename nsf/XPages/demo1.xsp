@@ -33,6 +33,7 @@
 				var="entry"
 				value="#{listCtrl.entries}"
 				headerClass="info">
+				
 				<xp:column
 					id="column3"
 					style="width: 150px">
@@ -45,6 +46,7 @@
 					</xp:this.facets>
 					<xp:text value="#{entry.firstname}" />
 				</xp:column>
+				
 				<xp:column
 					id="column4"
 					style="width: 150px">
@@ -57,6 +59,7 @@
 					</xp:this.facets>
 					<xp:text value="#{entry.lastname}" />
 				</xp:column>
+				
 				<xp:column id="column5">
 					<xp:this.facets>
 						<xp:label
@@ -67,6 +70,7 @@
 					</xp:this.facets>
 					<xp:text value="#{entry.street}" />
 				</xp:column>
+				
 				<xp:column
 					id="column6"
 					style="width: 100px">
@@ -79,6 +83,7 @@
 					</xp:this.facets>
 					<xp:text value="#{entry.zip}" />
 				</xp:column>
+				
 				<xp:column
 					id="column1"
 					style="width: 175px">
@@ -91,6 +96,7 @@
 					</xp:this.facets>
 					<xp:text value="#{entry.city}" />
 				</xp:column>
+				
 				<xp:column
 					id="column7"
 					style="width: 125px">

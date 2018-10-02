@@ -35,9 +35,9 @@
 					<li>
 						<a href="demo1.xsp">Demo 1</a>
 					</li>
-					<!-- <li>
+					<li>
 						<a href="demo2.xsp">Demo 2</a>
-					</li>
+					</li><!-- 
 					<li>
 						<a href="demo3.xsp">Demo 3</a>
 					</li> -->
