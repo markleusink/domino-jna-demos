@@ -37,10 +37,10 @@
 					</li>
 					<li>
 						<a href="demo2.xsp">Demo 2</a>
-					</li><!-- 
+					</li> 
 					<li>
 						<a href="demo3.xsp">Demo 3</a>
-					</li> -->
+					</li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -54,7 +54,7 @@
 					<li>
 						<a
 							target="_blank"
-							href="http://linqed.eu">Blog post</a>
+							href="http://linqed.eu/2018/10/02/query-domino-data-and-faceted-search-with-domino-jna-part-1/">Blog post</a>
 					</li>
 				</ul>
 			</div>

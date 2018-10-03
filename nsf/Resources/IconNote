@@ -16,16 +16,35 @@ EREdd3fRERER8AAAAAAA////Ed3dEf///wAAAAAAAAAAAPERER8AAAAAAAAAAAAAAAAP///wAAAA
 AAAAAAACICABAAD/////+A4DgA==
 </rawitemdata>
   </item>
-  <item name="$Flags">
-    <text>J7</text>
-  </item>
-  <item name="$LargeSummary">
+  <item name="$LaunchXPageRunOnServer">
     <text>0</text>
+  </item>
+  <item name="$FlagsNoRefresh">
+    <text/>
+  </item>
+  <item name="$TITLE">
+    <text>JNA Demo
+#2jna</text>
+  </item>
+  <item name="$PIRCRefreshModTime">
+    <datetime dst="true">20181002T141702,76+02</datetime>
+  </item>
+  <item name="$TemplateModTime">
+    <datetime dst="true">20181002T141643,75+02</datetime>
+  </item>
+  <item name="$TemplateServerName">
+    <text>CN=Mark Leusink/O=LinQed</text>
+  </item>
+  <item name="$TemplateFileName">
+    <text>CN=Ivo/O=LinQed!!jna\jna-demo.nsf</text>
   </item>
   <item name="$Daos">
     <text>0</text>
   </item>
-  <item name="$TITLE">
-    <text>JNA Demo</text>
+  <item name="$LargeSummary">
+    <text>0</text>
+  </item>
+  <item name="$Flags">
+    <text>J7</text>
   </item>
 </note>

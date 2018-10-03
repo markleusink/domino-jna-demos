@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view
+	xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	pageTitle="JNA List demo 3">
+
+	<xp:this.data>
+		<xe:objectData
+			var="listCtrl"
+			createObject="#{javascript:return new eu.linqed.jna.ListController3()}">
+		</xe:objectData>
+	</xp:this.data>
+
+	<xc:ccLayout>
+
+		<div class="well">
+			Adding a filter option (one ore more cities). This maintains the sort order and -direction.
+		</div>
+
+		<xp:div id="listContainer">
+
+			<!-- FILTERS -->
+			<div class="row">
+
+				<div class="col-sm-4">
+
+					<xp:listBox
+						value="#{listCtrl.filterCity}"
+						id="citiesList"
+						multiple="true">
+						<xp:selectItems>
+							<xp:this.value><![CDATA[#{listCtrl.citiesLimit}]]></xp:this.value>
+						</xp:selectItems>
+					</xp:listBox>
+
+					<xp:scriptBlock id="scriptBlock1">
+						<xp:this.value><![CDATA[
+					x$("#{id:citiesList}").select2({
+					placeholder : 'Select cities',
+					closeOnSelect : false
+					});
+				]]></xp:this.value>
+					</xp:scriptBlock>
+				</div>
+
+				<div class="col-sm-4">
+					<xp:button
+						value="Filter"
+						id="button1">
+
+						<xp:eventHandler
+							event="onclick"
+							submit="true"
+							refreshMode="partial"
+							refreshId="listContainer"
+							execMode="partial"
+							execId="listContainer">
+							<xp:this.action><![CDATA[#{javascript:listCtrl.applyFilters()}]]></xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+
+					<xp:button
+						value="Clear filters"
+						id="button2">
+
+						<xp:eventHandler
+							event="onclick"
+							submit="true"
+							refreshMode="partial"
+							refreshId="listContainer"
+							execMode="partial"
+							execId="listContainer">
+							<xp:this.action><![CDATA[#{javascript:listCtrl.clearFilters()}]]></xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+				</div>
+
+
+			</div>
+
+			<!-- pager -->
+			<xc:ccPager
+				ctrl="#{listCtrl}"
+				refreshId="listContainer"></xc:ccPager>
+
+			<!-- data table -->
+			<xp:dataTable
+				styleClass="table table-striped"
+				id="dataTable1"
+				rows="15"
+				var="entry"
+				value="#{listCtrl.entries}"
+				headerClass="info">
+				<xp:column
+					id="column3"
+					style="width: 150px">
+					<xp:this.facets>
+
+						<!-- sort link in header -->
+						<xp:link
+							text=""
+							id="label2"
+							xp:key="header">
+							<xp:eventHandler
+								event="onclick"
+								submit="true"
+								refreshMode="partial"
+								refreshId="listContainer"
+								execMode="partial"
+								execId="listContainer">
+								<xp:this.action><![CDATA[#{javascript:listCtrl.setSortColumn("firstName")}]]></xp:this.action>
+							</xp:eventHandler>
+
+							<xp:text value="First name" />
+							<xp:text
+								tagName="i"
+								styleClass="glyphicon glyphicon-arrow-up"
+								rendered="#{listCtrl.sortColumn == 'firstName' and listCtrl.sortAscending}"></xp:text>
+							<xp:text
+								tagName="i"
+								styleClass="glyphicon glyphicon-arrow-down"
+								rendered="#{listCtrl.sortColumn == 'firstName' and !listCtrl.sortAscending}"></xp:text>
+						</xp:link>
+
+					</xp:this.facets>
+
+					<!-- column value -->
+					<xp:text value="#{entry.firstname}" />
+				</xp:column>
+				<xp:column
+					id="column4"
+					style="width: 150px">
+					<xp:this.facets>
+						<xp:link
+							text=""
+							id="link1"
+							xp:key="header">
+							<xp:eventHandler
+								event="onclick"
+								submit="true"
+								refreshMode="partial"
+								refreshId="listContainer"
+								execMode="partial"
+								execId="listContainer">
+								<xp:this.action><![CDATA[#{javascript:listCtrl.setSortColumn("lastName")}]]></xp:this.action>
+							</xp:eventHandler>
+							<xp:text value="Last name" />
+							<xp:text
+								tagName="i"
+								styleClass="glyphicon glyphicon-arrow-up"
+								rendered="#{listCtrl.sortColumn == 'lastName' and listCtrl.sortAscending}"></xp:text>
+							<xp:text
+								tagName="i"
+								styleClass="glyphicon glyphicon-arrow-down"
+								rendered="#{listCtrl.sortColumn == 'lastName' and !listCtrl.sortAscending}"></xp:text>
+						</xp:link>
+					</xp:this.facets>
+					<xp:text value="#{entry.lastname}" />
+				</xp:column>
+				<xp:column id="column5">
+					<xp:this.facets>
+						<xp:label
+							value="Street"
+							id="label3"
+							xp:key="header">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text value="#{entry.street}" />
+				</xp:column>
+				<xp:column
+					id="column6"
+					style="width: 100px">
+					<xp:this.facets>
+						<xp:label
+							value="Zip Code"
+							id="label4"
+							xp:key="header">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text value="#{entry.zip}" />
+				</xp:column>
+				<xp:column
+					id="column1"
+					style="width: 175px">
+					<xp:this.facets>
+						<xp:link
+							text=""
+							id="link2"
+							xp:key="header">
+							<xp:eventHandler
+								event="onclick"
+								submit="true"
+								refreshMode="partial"
+								refreshId="listContainer"
+								execMode="partial"
+								execId="listContainer">
+								<xp:this.action><![CDATA[#{javascript:listCtrl.setSortColumn("city")}]]></xp:this.action>
+							</xp:eventHandler>
+							<xp:text value="City" />
+							<xp:text
+								tagName="i"
+								styleClass="glyphicon glyphicon-arrow-up"
+								rendered="#{listCtrl.sortColumn == 'city' and listCtrl.sortAscending}"></xp:text>
+							<xp:text
+								tagName="i"
+								styleClass="glyphicon glyphicon-arrow-down"
+								rendered="#{listCtrl.sortColumn == 'city' and !listCtrl.sortAscending}"></xp:text>
+						</xp:link>
+					</xp:this.facets>
+					<xp:text value="#{entry.city}" />
+				</xp:column>
+				<xp:column
+					id="column7"
+					style="width: 125px">
+					<xp:this.facets>
+						<xp:label
+							value="Country"
+							id="label6"
+							xp:key="header">
+						</xp:label>
+					</xp:this.facets>
+					<xp:text value="#{entry.country}" />
+				</xp:column>
+				<xp:column id="column2"></xp:column>
+			</xp:dataTable>
+
+		</xp:div>
+
+	</xc:ccLayout>
+
+</xp:view>

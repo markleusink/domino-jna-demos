@@ -1,0 +1,32 @@
+
+<theme extends="Bootstrap3_flat" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="platform:/plugin/com.ibm.designer.domino.stylekits/schema/stylekit.xsd" >
+	
+	<!-- disable AMD loader -->
+	<resource>
+		<content-type>application/x-javascript</content-type>
+		<href>amd_disable.js</href>
+	</resource>
+	
+
+	<!-- select2 -->
+	<resource>
+		<content-type>text/css</content-type>
+		<href>https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.css</href>
+	</resource>
+	<resource>
+		<content-type>text/css</content-type>
+		<href>https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2-bootstrap.min.css</href>
+	</resource>
+	<resource>
+		<content-type>application/x-javascript</content-type>
+		<href>https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.js</href>
+	</resource>
+
+
+	<!-- restore AMD loader -->
+	<resource>
+		<content-type>application/x-javascript</content-type>
+		<href>amd_enable.js</href>
+	</resource>
+
+</theme>
