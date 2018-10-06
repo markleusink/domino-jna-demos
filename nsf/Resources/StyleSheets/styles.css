@@ -7,7 +7,6 @@
 .navbar-inverse .navbar-brand, 
 .navbar-inverse .navbar-nav>li>a {
 	color: #fff;
-	
 }
 
 .footer {
@@ -15,4 +14,15 @@
 	background: #ddd;
  	padding: 10px;
  
+}
+
+.loading {
+	background: gold;
+	border: 1px solid #aaa;
+	height: 35px;
+	width: 100px;
+	border-radius: 4px;
+	padding: 6px;
+	color: #aaa;
+	float: left;
 }

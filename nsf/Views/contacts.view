@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view xmlns="http://www.lotus.com/dxl" name="contacts" hide="web" showinmenu="false" publicaccess="false" unreadmarks="none" onopengoto="lastopened" onrefresh="displayindicator" headers="beveled" opencollapsed="false" showresponsehierarchy="true" showmargin="true" shrinkrows="false" extendlastcolumn="false" showhierarchies="false" unreadcolor="black" rowlinecount="1" headerlinecount="1" rowspacing="1" bgcolor="white" totalscolor="black" headerbgcolor="white" boldunreadrows="false" evaluateactions="false" allownewdocuments="false" allowcustomizations="false" hidemarginborder="false" marginwidth="0px" marginbgcolor="white" uniquekeys="false">
+  <code event="selection">
+    <formula>SELECT @All</formula>
+  </code>
+  <column resort="both" hidedetailrows="false" itemname="firstName" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="true" sortnocase="true" showaslinks="false">
+    <columnheader title="firstName">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+  </column>
+  <column resort="both" hidedetailrows="false" itemname="lastName" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="true" sortnocase="true" showaslinks="false">
+    <columnheader title="lastName">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+  </column>
+  <column resort="both" hidedetailrows="false" itemname="street" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="true" sortnocase="true" showaslinks="false">
+    <columnheader title="street">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+  </column>
+  <column hidedetailrows="false" itemname="zip" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="true" sortnocase="true" showaslinks="false">
+    <columnheader title="zip">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+  </column>
+  <column resort="both" hidedetailrows="false" itemname="city" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="true" sortnocase="true" showaslinks="false">
+    <columnheader title="city">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+  </column>
+  <column resort="both" hidedetailrows="false" itemname="country" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="true" sortnocase="true" showaslinks="false">
+    <columnheader title="country">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+  </column>
+  <column hidedetailrows="false" itemname="email" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="true" sortnocase="true" showaslinks="false">
+    <columnheader title="email">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+  </column>
+  <column hidedetailrows="false" itemname="phone" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="false" sortnocase="true" showaslinks="false">
+    <columnheader title="phone">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+  </column>
+  <column resort="both" hidedetailrows="false" itemname="birthday" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="false" sortnocase="true" showaslinks="false">
+    <columnheader title="birthday">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+    <datetimeformat show="date" date="yearmonthday" fourdigityear="true" time="hourminutesecond" zone="never" dateformat="weekdaydaymonthyear" dayformat="twodigitday" monthformat="twodigitmonth" yearformat="fourdigityear" weekdayformat="shortname" dateseparator1=" " dateseparator2="-" dateseparator3="-" timeseparator=":" timeformat24="true" preference="usersetting"/>
+    <numberformat format="general" punctuated="false" parens="false" percent="false" bytes="false"/>
+  </column>
+  <column hidedetailrows="false" itemname="$lastNameNoteId" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="false" sortnocase="true" showaslinks="false">
+    <columnheader title="lastname + noteid">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+    <code event="value">
+      <formula>lastName + "|" + @Right(@NoteID; "NT")</formula>
+    </code>
+  </column>
+</view>

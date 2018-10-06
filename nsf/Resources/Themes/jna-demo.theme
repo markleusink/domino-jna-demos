@@ -22,7 +22,6 @@
 		<href>https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.js</href>
 	</resource>
 
-
 	<!-- restore AMD loader -->
 	<resource>
 		<content-type>application/x-javascript</content-type>

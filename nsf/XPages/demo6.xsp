@@ -8,23 +8,25 @@
 	<xp:this.data>
 		<xe:objectData
 			var="listCtrl"
-			createObject="#{javascript:return new eu.linqed.jna.ListController3()}">
+			createObject="#{javascript:return new eu.linqed.jna.ListController6()}">
 		</xe:objectData>
 	</xp:this.data>
 
 	<xc:ccLayout>
 
-		<div class="well">
-			Adding a filter option (one ore more cities). This maintains the sort order and -direction.
+		<div class="row well">
+			List with three filter options (lastname, country and city). This maintains the sort order and -direction. List is filtered
+			on change.
 		</div>
 
 		<xp:div id="listContainer">
 
 			<!-- FILTERS -->
-			<div class="row">
+			<div class="row well">
 
 				<div class="col-sm-4">
 
+					<!-- city -->
 					<xp:listBox
 						value="#{listCtrl.filterCity}"
 						id="citiesList"
@@ -38,27 +40,78 @@
 						<xp:this.value><![CDATA[
 					x$("#{id:citiesList}").select2({
 					placeholder : 'Select one or more cities'
+					})
+					.on("change", function() {
+						$('.loading').fadeIn(150);
+						XSP.partialRefreshPost("#{id:listContainer}");
+					});
+				]]></xp:this.value>
+					</xp:scriptBlock>
+
+				</div>
+
+				<div class="col-sm-4">
+
+					<!-- country -->
+					<xp:listBox
+						value="#{listCtrl.filterCountry}"
+						id="countryFilter"
+						multiple="true">
+						<xp:selectItems>
+							<xp:this.value><![CDATA[#{listCtrl.countries}]]></xp:this.value>
+						</xp:selectItems>
+					</xp:listBox>
+
+					<xp:scriptBlock id="scriptBlock2">
+						<xp:this.value><![CDATA[
+					x$("#{id:countryFilter}").select2({
+					placeholder : 'Select one or more countries'
+					})
+					.on("change", function() {
+						$('.loading').fadeIn(150);
+						XSP.partialRefreshPost("#{id:listContainer}");
 					});
 				]]></xp:this.value>
 					</xp:scriptBlock>
 				</div>
 
-				<div class="col-sm-4">
-					<xp:button
-						value="Filter"
-						id="button1">
+				<div class="col-sm-3">
 
-						<xp:eventHandler
-							event="onclick"
-							submit="true"
-							refreshMode="partial"
-							refreshId="listContainer">
-							<xp:this.action><![CDATA[#{javascript:listCtrl.applyFilters()}]]></xp:this.action>
-						</xp:eventHandler>
-					</xp:button>
+					<xp:inputText
+						id="inputText1"
+						value="#{listCtrl.filterLastname}">
+						<xp:this.attrs>
+							<xp:attr
+								name="placeholder"
+								value="Lastname contains...">
+							</xp:attr>
+						</xp:this.attrs>
+					</xp:inputText>
+
+					<xp:scriptBlock id="scriptBlock3">
+						<xp:this.value><![CDATA[
+$(document).ready(function() { //wait for document ready
+        var timer;
+        var delay = 600; 
+ 
+        x$('#{id:inputText1}').bind('input', function() {
+            window.clearTimeout(timer);
+            timer = window.setTimeout(function(){
+            	$('.loading').fadeIn(150);
+                 XSP.partialRefreshPost("#{id:listContainer}");
+            }, delay);
+        })
+    });   
+	
+]]></xp:this.value>
+					</xp:scriptBlock>
+
+				</div>
+
+				<div class="col-sm-1">
 
 					<xp:button
-						value="Clear filters"
+						value="Clear"
 						id="button2">
 
 						<xp:eventHandler
@@ -73,13 +126,16 @@
 
 			</div>
 
-
+			<div class="loading" style="display:none;">
+				Loading...
+			</div>
 
 
 			<!-- pager -->
 			<xc:ccPager
 				ctrl="#{listCtrl}"
 				refreshId="listContainer"></xc:ccPager>
+
 
 			<!-- data table -->
 			<xp:dataTable
@@ -211,11 +267,29 @@
 					id="column7"
 					style="width: 125px">
 					<xp:this.facets>
-						<xp:label
-							value="Country"
-							id="label6"
+						<xp:link
+							text=""
+							id="link3"
 							xp:key="header">
-						</xp:label>
+							<xp:eventHandler
+								event="onclick"
+								submit="true"
+								refreshMode="partial"
+								refreshId="listContainer"
+								execMode="partial"
+								execId="listContainer">
+								<xp:this.action><![CDATA[#{javascript:listCtrl.setSortColumn("country")}]]></xp:this.action>
+							</xp:eventHandler>
+							<xp:text value="Country" />
+							<xp:text
+								tagName="i"
+								styleClass="glyphicon glyphicon-arrow-up"
+								rendered="#{listCtrl.sortColumn == 'country' and listCtrl.sortAscending}"></xp:text>
+							<xp:text
+								tagName="i"
+								styleClass="glyphicon glyphicon-arrow-down"
+								rendered="#{listCtrl.sortColumn == 'country' and !listCtrl.sortAscending}"></xp:text>
+						</xp:link>
 					</xp:this.facets>
 					<xp:text value="#{entry.country}" />
 				</xp:column>
@@ -225,5 +299,7 @@
 		</xp:div>
 
 	</xc:ccLayout>
+
+
 
 </xp:view>

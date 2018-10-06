@@ -135,7 +135,6 @@ public class ListController2 implements Serializable {
 		}
 		
 		loadEntries();
-		
 	}
 	
 	public boolean isSortAscending() {

@@ -20,7 +20,7 @@ import com.mindoo.domino.jna.constants.Find;
 import com.mindoo.domino.jna.constants.Navigate;
 import com.mindoo.domino.jna.constants.ReadMask;
 
-public class ListController3 implements Serializable {
+public class ListController4 implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,43 +28,67 @@ public class ListController3 implements Serializable {
 
 	List<Map> entries = new ArrayList();
 
-	int NUM_PER_PAGE = 15; 	// number of entries to show per page
-	int skipEntries = 1; 	// number of entries to skip (used for pagination)
-	int totalEntries; 		// total entries
+	int NUM_PER_PAGE = 15; // number of entries to show per page
+	int skipEntries = 1; // number of entries to skip (used for pagination)
+	int totalEntries; // total entries
 
-	String sortColumn = "firstName"; 	// default sort column
+	String sortColumn = "firstName"; // default sort column
 	boolean sortAscending = true;
 
 	// filters
 	List<String> filterCity = new ArrayList<String>();
-	List<String> cities = new ArrayList<String>(); 		// list of typeahead suggestions
+	List<String> cities = new ArrayList<String>(); // list of typeahead suggestions
+
+	List<String> filterCountry = new ArrayList<String>();
+	List<String> countries = new ArrayList<String>(); // list of typeahead suggestions
 
 	LinkedHashSet<Integer> matchingIds = new LinkedHashSet<Integer>();
 
 	private transient NotesCollection collection;
 
-	public ListController3() {
+	@SuppressWarnings("unchecked")
+	public ListController4() {
 
 		// load city typeahead options: get a list of all cities used in the view
 		// the list is cached in the applicationScope
-		
+
 		if (ExtLibUtil.getApplicationScope().containsKey("cities")) {
-			
+
 			this.cities = (List<String>) ExtLibUtil.getApplicationScope().get("cities");
-			
+
 		} else {
 			long start = System.currentTimeMillis();
-	
+
 			// get a list of all cities for all contacts
 			// this uses an optimised view column lookup formula from JNA:
 			Set<String> cities = getCollection().getColumnValues("city", null);
 			this.cities.addAll(cities);
-			
+
 			ExtLibUtil.getApplicationScope().put("cities", this.cities);
-	
+
 			System.out.println("cities now has " + cities.size() + " in " + (System.currentTimeMillis() - start) + "ms");
 		}
-		
+
+		// load country typeahead options: get a list of all cities used in the view
+		// the list is cached in the applicationScope
+
+		if (ExtLibUtil.getApplicationScope().containsKey("countries")) {
+
+			this.countries = (List<String>) ExtLibUtil.getApplicationScope().get("countries");
+
+		} else {
+			long start = System.currentTimeMillis();
+
+			// get a list of all cities for all contacts
+			// this uses an optimised view column lookup formula from JNA:
+			Set<String> countries = getCollection().getColumnValues("country", null);
+			this.countries.addAll(countries);
+
+			ExtLibUtil.getApplicationScope().put("countries", this.countries);
+
+			System.out.println("countries now has " + countries.size() + " in " + (System.currentTimeMillis() - start) + "ms");
+		}
+
 		// load first set of entries
 		loadEntries();
 
@@ -97,11 +121,11 @@ public class ListController3 implements Serializable {
 			EnumSet<ReadMask> returnData = EnumSet.of(ReadMask.NOTEID, ReadMask.SUMMARYVALUES);
 			EnumSet<Navigate> returnNavigator;
 
-			// if a filter was set (on 'city'), we need to change a couple of things:
-			// - just read the contacts that match the city/ cities
+			// if a filter was set, we need to change a couple of things:
+			// - just read the contacts that match the filters
 			// - use a different navigator: we loop only over the selected contact
-			//   in the collection
-			boolean hasFilters = !filterCity.isEmpty();
+			// in the collection
+			boolean hasFilters = !filterCity.isEmpty() || !filterCountry.isEmpty();
 
 			if (hasFilters) {
 
@@ -113,19 +137,17 @@ public class ListController3 implements Serializable {
 				totalEntries = collection.getSelectedList().getCount();
 
 			} else {
-				
+
 				returnNavigator = EnumSet.of(Navigate.NEXT);
 				totalEntries = collection.getTopLevelEntries();
 
 			}
-			
-			System.out.println(">>" + this.totalEntries + ">" + this.skipEntries);
 
 			// get a list of 'NotesViewEntryData' for the current page
 			List<NotesViewEntryData> viewEntries = collection.getAllEntries("0", skipEntries, returnNavigator, NUM_PER_PAGE, returnData,
 					new EntriesAsListCallback(NUM_PER_PAGE));
 
-			// transform the list into a list of maps (where every entry 
+			// transform the list into a list of maps (where every entry
 			// represents a view entry and has a map containing the column values)
 			entries.clear();
 
@@ -217,7 +239,7 @@ public class ListController3 implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public void setFilterCity(Object filterCity) {
-		
+
 		List<String> tmp = new ArrayList<String>();
 
 		if (filterCity instanceof String) {
@@ -228,40 +250,80 @@ public class ListController3 implements Serializable {
 
 			// remove empties
 			tmp = (List<String>) filterCity;
-			tmp.removeAll( Arrays.asList("") );
-			
+			tmp.removeAll(Arrays.asList(""));
+
 		}
 
 		this.filterCity = tmp;
 
 	}
 
-	public void applyFilters() {
+	public Object getFilterCountry() {
+		return filterCountry;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setFilterCountry(Object filterCountry) {
 		
+		List<String> tmp = new ArrayList<String>();
+
+		if (filterCountry instanceof String) {
+			if (StringUtil.isNotEmpty((String) filterCountry)) {
+				tmp.add((String) filterCountry);
+			}
+		} else {
+
+			// remove empties
+			tmp = (List<String>) filterCountry;
+			tmp.removeAll(Arrays.asList(""));
+
+		}
+
+		this.filterCountry = tmp;
+	}
+	
+	
+	public void applyFilters() {
+
 		this.skipEntries = 1; // go to first page
 
 		// get the contacts view and sort it using the property we're filtering on
 		NotesCollection collection = getCollection();
-		collection.resortView("city", Direction.Ascending);
+		
+		
 
 		matchingIds.clear();
 
 		// for every city entered, we find the Note IDs of the entries in the contacts view
 		// that match. All IDs are stored in a Set (matchingIds)
 
+		collection.resortView("city", Direction.Ascending);
+		
 		for (String city : filterCity) {
 			Set<Integer> matches = collection.getAllIdsByKey(EnumSet.of(Find.CASE_INSENSITIVE), city);
-			matchingIds.addAll(matches );
+
+			matchingIds.addAll(matches);
 			System.out.println("- added " + matches.size() + " for city " + city);
 		}
 		
-		loadEntries();
+		collection.resortView("country", Direction.Ascending);
 		
+		for (String country : filterCountry) {
+			Set<Integer> matches = collection.getAllIdsByKey(EnumSet.of(Find.CASE_INSENSITIVE), country);
+
+			matchingIds.addAll(matches);
+			System.out.println("- added " + matches.size() + " for city " + country);
+		}
+
+		loadEntries();
+
 	}
 
 	public void clearFilters() {
 		this.matchingIds.clear();
+		this.skipEntries = 1;
 		this.filterCity.clear();
+		this.filterCountry.clear();
 		loadEntries();
 	}
 
@@ -272,16 +334,20 @@ public class ListController3 implements Serializable {
 
 	// returns 50 entries from the list of cities
 	public List<String> getCitiesLimit() {
-		
-		List<String> res = new ArrayList<String>();
-		int i=0; 
 
-		while (i<50) {
+		List<String> res = new ArrayList<String>();
+		int i = 0;
+
+		while (i < 100) {
 			i++;
-			res.add(cities.get(i*100));
+			res.add(cities.get(i * 60));
 		}
-		
+
 		return res;
+	}
+	
+	public List<String> getCountries() {
+		return countries;
 	}
 
 }

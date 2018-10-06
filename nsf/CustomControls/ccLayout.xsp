@@ -33,13 +33,22 @@
 				<ul class="nav navbar-nav">
 
 					<li>
-						<a href="demo1.xsp">Demo 1</a>
+						<a href="demo1.xsp">1 list</a>
 					</li>
 					<li>
-						<a href="demo2.xsp">Demo 2</a>
+						<a href="demo2.xsp">2 sort</a>
 					</li> 
 					<li>
-						<a href="demo3.xsp">Demo 3</a>
+						<a href="demo3.xsp">3 city filter</a>
+					</li>
+					<li>
+						<a href="demo4.xsp">4 city/ country filter</a>
+					</li>
+					<li>
+						<a href="demo5.xsp">5 lastname search</a>
+					</li>
+					<li>
+						<a href="demo6.xsp">6 onchange</a>
 					</li>
 				</ul>
 

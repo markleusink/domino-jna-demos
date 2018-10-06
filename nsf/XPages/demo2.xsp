@@ -3,7 +3,7 @@
 	xmlns:xp="http://www.ibm.com/xsp/core"
 	xmlns:xe="http://www.ibm.com/xsp/coreex"
 	xmlns:xc="http://www.ibm.com/xsp/custom"
-	pageTitle="JNA List demo 2">
+	pageTitle="JNA List demo">
 
 	<xp:this.data>
 		<xe:objectData
