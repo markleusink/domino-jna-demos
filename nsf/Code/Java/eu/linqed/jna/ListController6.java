@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.extlib.util.ExtLibUtil;
 import com.mindoo.domino.jna.NotesCollection;
@@ -114,8 +112,6 @@ public class ListController6 implements Serializable {
 
 	public void loadEntries() {
 
-		System.out.println("load entries...");
-
 		try {
 			NotesCollection collection = getCollection();
 
@@ -134,11 +130,9 @@ public class ListController6 implements Serializable {
 
 			if (hasFilters) {
 
-				// apply the matching Note IDs
+				// apply the matching Note IDs and update the navigator
 				collection.select(matchingIds, true);
-
 				returnNavigator = EnumSet.of(Navigate.NEXT_SELECTED);
-
 				totalEntries = collection.getSelectedList().getCount();
 
 			} else {
@@ -289,7 +283,6 @@ public class ListController6 implements Serializable {
 		}
 
 		if (!tmp.equals(this.filterCountry)) {
-			System.out.println("country changed...");
 			this.filterCountry = tmp;
 			applyFilters();
 		}
@@ -314,28 +307,23 @@ public class ListController6 implements Serializable {
 
 				for (String city : filterCity) {
 					Set<Integer> matches = collection.getAllIdsByKey(EnumSet.of(Find.CASE_INSENSITIVE), city);
-
 					matchingIds.addAll(matches);
-					System.out.println("- added " + matches.size() + " for city " + city);
 				}
 			}
 
 			// do the same for country
-
 			if (!filterCountry.isEmpty()) {
 
 				collection.resortView("country", Direction.Ascending);
 
 				for (String country : filterCountry) {
 					Set<Integer> matches = collection.getAllIdsByKey(EnumSet.of(Find.CASE_INSENSITIVE), country);
-
 					matchingIds.addAll(matches);
-					System.out.println("- added " + matches.size() + " for country " + country);
 				}
 			}
 
 			// lastname
-			if (StringUtils.isNotEmpty(filterLastname)) {
+			if (StringUtil.isNotEmpty(filterLastname)) {
 
 				// get a (cached) list of all lastnames
 				Set<String> lastNames = new TreeSet<String>();
@@ -345,15 +333,12 @@ public class ListController6 implements Serializable {
 					lastNames = (TreeSet<String>) ExtLibUtil.getApplicationScope().get("lastNames");
 
 				} else {
-					long start = System.currentTimeMillis();
-
+					
 					// get a list of all cities for all contacts
 					// this uses an optimised view column lookup formula from JNA:
 					lastNames = getCollection().getColumnValues("$lastNameNoteId", null);
 
 					ExtLibUtil.getApplicationScope().put("lastNames", lastNames);
-
-					System.out.println("lastNames now has " + lastNames.size() + " in " + (System.currentTimeMillis() - start) + "ms");
 				}
 
 				// find matches

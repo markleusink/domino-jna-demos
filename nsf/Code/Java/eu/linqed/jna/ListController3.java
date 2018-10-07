@@ -85,8 +85,6 @@ public class ListController3 implements Serializable {
 
 	public void loadEntries() {
 
-		System.out.println("load entries...");
-
 		try {
 			NotesCollection collection = getCollection();
 
@@ -119,8 +117,6 @@ public class ListController3 implements Serializable {
 
 			}
 			
-			System.out.println(">>" + this.totalEntries + ">" + this.skipEntries);
-
 			// get a list of 'NotesViewEntryData' for the current page
 			List<NotesViewEntryData> viewEntries = collection.getAllEntries("0", skipEntries, returnNavigator, NUM_PER_PAGE, returnData,
 					new EntriesAsListCallback(NUM_PER_PAGE));
@@ -252,7 +248,6 @@ public class ListController3 implements Serializable {
 		for (String city : filterCity) {
 			Set<Integer> matches = collection.getAllIdsByKey(EnumSet.of(Find.CASE_INSENSITIVE), city);
 			matchingIds.addAll(matches );
-			System.out.println("- added " + matches.size() + " for city " + city);
 		}
 		
 		loadEntries();

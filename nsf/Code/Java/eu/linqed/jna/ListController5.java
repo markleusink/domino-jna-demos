@@ -4,14 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-
-import org.apache.commons.lang.StringUtils;
 
 import com.ibm.commons.util.StringUtil;
 import com.ibm.xsp.extlib.util.ExtLibUtil;
@@ -115,8 +112,6 @@ public class ListController5 implements Serializable {
 
 	public void loadEntries() {
 
-		System.out.println("load entries...");
-
 		try {
 			NotesCollection collection = getCollection();
 
@@ -137,9 +132,7 @@ public class ListController5 implements Serializable {
 
 				// apply the matching Note IDs
 				collection.select(matchingIds, true);
-
 				returnNavigator = EnumSet.of(Navigate.NEXT_SELECTED);
-
 				totalEntries = collection.getSelectedList().getCount();
 
 			} else {
@@ -310,7 +303,7 @@ public class ListController5 implements Serializable {
 					Set<Integer> matches = collection.getAllIdsByKey(EnumSet.of(Find.CASE_INSENSITIVE), city);
 
 					matchingIds.addAll(matches);
-					System.out.println("- added " + matches.size() + " for city " + city);
+					//System.out.println("- added " + matches.size() + " for city " + city);
 				}
 			}
 
@@ -324,12 +317,12 @@ public class ListController5 implements Serializable {
 					Set<Integer> matches = collection.getAllIdsByKey(EnumSet.of(Find.CASE_INSENSITIVE), country);
 
 					matchingIds.addAll(matches);
-					System.out.println("- added " + matches.size() + " for city " + country);
+					//System.out.println("- added " + matches.size() + " for city " + country);
 				}
 			}
 
 			// lastname
-			if (StringUtils.isNotEmpty(filterLastname)) {
+			if (StringUtil.isNotEmpty(filterLastname)) {
 
 				// get a list of all lastnames
 
@@ -348,12 +341,8 @@ public class ListController5 implements Serializable {
 
 					ExtLibUtil.getApplicationScope().put("lastNames", lastNames);
 
-					System.out.println("lastNames now has " + lastNames.size() + " in " + (System.currentTimeMillis() - start) + "ms");
+					//System.out.println("lastNames now has " + lastNames.size() + " in " + (System.currentTimeMillis() - start) + "ms");
 				}
-				
-				int num = 0;
-				
-				System.out.println("check for  " + filterLastname);
 
 				// find matches
 				for (String l : lastNames) {
@@ -361,16 +350,12 @@ public class ListController5 implements Serializable {
 					String noteId = l.split("\\|")[1];
 
 					if (name.indexOf(filterLastname) > -1) {
-						
-						num++;
 						Integer id = Integer.parseInt(noteId, 16);
 						matchingIds.add(id);
 					}
 
 				}
 				
-				System.out.println("added " + num);
-
 			}
 
 			loadEntries();

@@ -109,8 +109,6 @@ public class ListController4 implements Serializable {
 
 	public void loadEntries() {
 
-		System.out.println("load entries...");
-
 		try {
 			NotesCollection collection = getCollection();
 
@@ -301,18 +299,14 @@ public class ListController4 implements Serializable {
 		
 		for (String city : filterCity) {
 			Set<Integer> matches = collection.getAllIdsByKey(EnumSet.of(Find.CASE_INSENSITIVE), city);
-
 			matchingIds.addAll(matches);
-			System.out.println("- added " + matches.size() + " for city " + city);
 		}
 		
 		collection.resortView("country", Direction.Ascending);
 		
 		for (String country : filterCountry) {
 			Set<Integer> matches = collection.getAllIdsByKey(EnumSet.of(Find.CASE_INSENSITIVE), country);
-
 			matchingIds.addAll(matches);
-			System.out.println("- added " + matches.size() + " for city " + country);
 		}
 
 		loadEntries();
