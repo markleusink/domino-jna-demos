@@ -58,4 +58,12 @@
       <formula>lastName + "|" + @Right(@NoteID; "NT")</formula>
     </code>
   </column>
+  <column hidedetailrows="false" itemname="$query" width="10" resizable="true" separatemultiplevalues="false" sortnoaccent="false" sortnocase="true" showaslinks="false">
+    <columnheader title="$query">
+      <font size="9pt" style="bold"/>
+    </columnheader>
+    <code event="value">
+      <formula>firstName + " " + lastName + " " + street + " " + zip + " " + city + " " + country + " " + email+ "|" + @Right(@NoteID; "NT")</formula>
+    </code>
+  </column>
 </view>

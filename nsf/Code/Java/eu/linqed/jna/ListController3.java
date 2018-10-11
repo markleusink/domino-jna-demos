@@ -75,7 +75,7 @@ public class ListController3 implements Serializable {
 	// faster access
 	private NotesCollection getCollection() {
 
-		if (collection == null) {
+		if (collection == null || collection.isRecycled() ) {
 			NotesDatabase db = new NotesDatabase(ExtLibUtil.getCurrentSession(), "", fakenamesPath);
 			collection = db.openCollectionByName("contacts");
 		}

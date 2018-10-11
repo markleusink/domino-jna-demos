@@ -101,8 +101,8 @@ public class ListController6 implements Serializable {
 	// The collection is stored in this class as a transient variable for
 	// faster access
 	private NotesCollection getCollection() {
-
-		if (collection == null) {
+		
+		if (collection == null || collection.isRecycled() ) {
 			NotesDatabase db = new NotesDatabase(ExtLibUtil.getCurrentSession(), "", fakenamesPath);
 			collection = db.openCollectionByName("contacts");
 		}
