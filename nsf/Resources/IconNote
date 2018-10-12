@@ -16,16 +16,6 @@ EREdd3fRERER8AAAAAAA////Ed3dEf///wAAAAAAAAAAAPERER8AAAAAAAAAAAAAAAAP///wAAAA
 AAAAAAACICABAAD/////+A4DgA==
 </rawitemdata>
   </item>
-  <item name="$LaunchXPageRunOnServer">
-    <text>0</text>
-  </item>
-  <item name="$FlagsNoRefresh">
-    <text/>
-  </item>
-  <item name="$TITLE">
-    <text>JNA Demo
-#2jna</text>
-  </item>
   <item name="$PIRCRefreshModTime">
     <datetime dst="true">20181002T141702,76+02</datetime>
   </item>
@@ -46,5 +36,15 @@ AAAAAAACICABAAD/////+A4DgA==
   </item>
   <item name="$Flags">
     <text>J7</text>
+  </item>
+  <item name="$LaunchXPageRunOnServer">
+    <text>0</text>
+  </item>
+  <item name="$FlagsNoRefresh">
+    <text/>
+  </item>
+  <item name="$TITLE">
+    <text>JNA Demo
+#1JNA Demo</text>
   </item>
 </note>

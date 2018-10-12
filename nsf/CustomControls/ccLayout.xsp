@@ -50,6 +50,11 @@
 					<li>
 						<a href="demo6.xsp">6 onchange</a>
 					</li>
+					
+					<li>
+						<a href="/demos/jna-grid/index.html" target="_blank">7 Angular Grid</a>
+					</li>
+					
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

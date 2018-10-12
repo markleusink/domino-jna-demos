@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view
+	xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	rendered="false"
+	viewState="nostate">
+
+	<xe:restService pathInfo="contacts">
+		<xe:this.service>
+			<xe:customRestService
+				contentType="application/json"
+				serviceBean="eu.linqed.api.ContactsService">
+			</xe:customRestService>
+		</xe:this.service>
+	</xe:restService>
+	
+</xp:view>
